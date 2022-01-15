@@ -1,7 +1,8 @@
 class AutoRules < RiskRules
   SCORE_CALCULATION_RULES = [
     BelowThirtyYearsOldRule,
-    BelowFortyYearsOldRule
+    BelowFortyYearsOldRule,
+    IncomeAbove200000Rule
   ]
 
   ELIGIBILITY_RULES = [

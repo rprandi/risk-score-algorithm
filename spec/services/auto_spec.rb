@@ -58,5 +58,28 @@ RSpec.describe AutoRules do
         end
       end
     end
+
+    describe 'Income Rule' do
+      describe 'when income is 200_000' do
+        it 'returns score of 0' do
+          risk_score = subject.new(default_params.merge({ income: 200_000 })).calculate_score
+          expect(risk_score).to eq(0)
+        end
+      end
+
+      describe 'when income is less than 200_000' do
+        it 'returns score of 0' do
+          risk_score = subject.new(default_params.merge({ income: 199_999 })).calculate_score
+          expect(risk_score).to eq(0)
+        end
+      end
+
+      describe 'when income is more than 200_000' do
+        it 'returns score of -1' do
+          risk_score = subject.new(default_params.merge({ income: 200_001 })).calculate_score
+          expect(risk_score).to eq(-1)
+        end
+      end
+    end
   end
 end
