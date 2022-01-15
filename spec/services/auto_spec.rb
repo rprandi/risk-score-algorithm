@@ -15,29 +15,47 @@ RSpec.describe AutoRules do
     }
   }
 
-  describe 'Age Rule' do
-    describe 'when user has 29 years old' do
-      it 'returns score of -2' do
-        risk_score = subject.new(default_params.merge({ age: 29 })).calculate_risk
-        expect(risk_score).to eq(-2)
+  describe 'is_eligible?' do
+    describe 'when user has no vehicle' do
+      it 'returns false' do
+        eligible = subject.new(default_params.merge({ vehicle: {}})).is_eligible?
+        expect(eligible).to eq(false)
       end
     end
-    describe 'when user has 30 years old' do
-      it 'returns score of -1' do
-        risk_score = subject.new(default_params.merge({ age: 30 })).calculate_risk
-        expect(risk_score).to eq(-1)
+
+    describe 'when user has vehicle' do
+      it 'returns true' do
+        eligible = subject.new(default_params).is_eligible?
+        expect(eligible).to eq(true)
       end
     end
-    describe 'when user has 39 years old' do
-      it 'returns score of -1' do
-        risk_score = subject.new(default_params.merge({ age: 39 })).calculate_risk
-        expect(risk_score).to eq(-1)
+  end
+
+  describe '.calculate_score' do
+    describe 'Age Rule' do
+      describe 'when user has 29 years old' do
+        it 'returns score of -2' do
+          risk_score = subject.new(default_params.merge({ age: 29 })).calculate_score
+          expect(risk_score).to eq(-2)
+        end
       end
-    end
-    describe 'when user has 40 years old' do
-      it 'returns score of 0' do
-        risk_score = subject.new(default_params.merge({ age: 40 })).calculate_risk
-        expect(risk_score).to eq(0)
+      describe 'when user has 30 years old' do
+        it 'returns score of -1' do
+          risk_score = subject.new(default_params.merge({ age: 30 })).calculate_score
+          expect(risk_score).to eq(-1)
+        end
+      end
+      describe 'when user has 39 years old' do
+        it 'returns score of -1' do
+          risk_score = subject.new(default_params.merge({ age: 39 })).calculate_score
+          expect(risk_score).to eq(-1)
+        end
+      end
+      describe 'when user has 40 years old' do
+        it 'returns score of 0' do
+          risk_score = subject.new(default_params.merge({ age: 40 })).calculate_score
+          expect(risk_score).to eq(0)
+        end
       end
     end
   end

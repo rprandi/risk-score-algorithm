@@ -17,7 +17,10 @@ class RiskAPI < Sinatra::Base
     status 200
 
     response = {
-      auto: map_risk_score(AutoRules.new(body).calculate_risk)
+      auto: calculate_score(body, AutoRules)
+      # disability: calculate_score(body, AutoRules)
+      # home: calculate_score(body, AutoRules)
+      # life: calculate_score(body, AutoRules)
     }
 
     body response.to_json
@@ -29,7 +32,10 @@ class RiskAPI < Sinatra::Base
     REQUIRED_FIELDS.select { |field| body[field].nil? }
   end
 
-  def map_risk_score(score)
+  def calculate_score(body, rules)
+    rulesObject = rules.new(body)
+    return 'ineligible' unless rulesObject.is_eligible?
+    score = rulesObject.calculate_score
     case
     when score <= 0
       'economic'

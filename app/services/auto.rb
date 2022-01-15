@@ -1,18 +1,32 @@
 class AutoRules < RiskRules
-  DEFAULT_BUSINESS_RULES = [
+  SCORE_CALCULATION_RULES = [
     BelowThirtyYearsOldRule,
     BelowFortyYearsOldRule
   ]
 
-  def initialize(params, new_rules=[])
+  ELIGIBILITY_RULES = [
+    NoVehicleRule
+  ]
+
+  def initialize(params)
     @params = params
-    @rules = (DEFAULT_BUSINESS_RULES + new_rules).uniq
   end
 
-  def calculate_risk
+
+  def is_eligible?
+    score = true
+
+    ELIGIBILITY_RULES.each do |rule|
+      score &= rule.apply(@params)
+    end
+
+    score
+  end
+
+  def calculate_score
     score = 0
 
-    @rules.each do |rule|
+    SCORE_CALCULATION_RULES.each do |rule|
       score += rule.apply(@params)
     end
 

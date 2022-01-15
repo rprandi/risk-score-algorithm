@@ -7,6 +7,7 @@ require "active_support/all"
 
 require_relative '../app/services/rules/below_thirty_years_old'
 require_relative '../app/services/rules/below_forty_years_old'
+require_relative '../app/services/rules/no_vehicle'
 require_relative '../app/services/risk'
 require_relative '../app/services/auto'
 require_relative '../app/api/risk'
