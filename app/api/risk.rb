@@ -14,6 +14,7 @@ class RiskAPI < Sinatra::Base
       halt 400, { error: "Missing fields: #{missing_fields.join(', ')}" }.to_json
     end
 
+
     status 200
 
     response = {
@@ -35,7 +36,11 @@ class RiskAPI < Sinatra::Base
   def calculate_score(body, rules)
     rulesObject = rules.new(body)
     return 'ineligible' unless rulesObject.is_eligible?
-    score = rulesObject.calculate_score
+
+
+    base_score = body[:risk_questions].reduce(:+)
+    score = base_score + rulesObject.calculate_score
+
     case
     when score <= 0
       'economic'
