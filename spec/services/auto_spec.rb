@@ -11,7 +11,7 @@ RSpec.describe AutoRules do
       income: 0,
       marital_status: "married",
       risk_questions: [0, 1, 0],
-      vehicle: { year: 2018 }
+      vehicle: { year: 2000 }
     }
   }
 
@@ -78,6 +78,36 @@ RSpec.describe AutoRules do
         it 'returns score of -1' do
           risk_score = subject.new(default_params.merge({ income: 200_001 })).calculate_score
           expect(risk_score).to eq(-1)
+        end
+      end
+    end
+
+    describe 'Vehicle Produced Recently Rule' do
+      describe 'when vehicle is from this year' do
+        it 'returns score of 1' do
+          risk_score = subject.new(default_params.merge({ vehicle: { year: Time.new.year }})).calculate_score
+          expect(risk_score).to eq(1)
+        end
+      end
+
+      describe 'when vehicle is from 4 years ago' do
+        it 'returns score of 1' do
+          risk_score = subject.new(default_params.merge({ vehicle: { year: Time.new.year - 4 }})).calculate_score
+          expect(risk_score).to eq(1)
+        end
+      end
+
+      describe 'when vehicle is from 5 years ago' do
+        it 'returns score of 1' do
+          risk_score = subject.new(default_params.merge({ vehicle: { year: Time.new.year - 5 }})).calculate_score
+          expect(risk_score).to eq(1)
+        end
+      end
+
+      describe 'when vehicle is from 6 years ago' do
+        it 'returns score of 0' do
+          risk_score = subject.new(default_params.merge({ vehicle: { year: Time.new.year - 6 }})).calculate_score
+          expect(risk_score).to eq(0)
         end
       end
     end

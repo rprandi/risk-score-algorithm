@@ -2,7 +2,8 @@ class AutoRules < RiskRules
   SCORE_CALCULATION_RULES = [
     BelowThirtyYearsOldRule,
     BelowFortyYearsOldRule,
-    IncomeAbove200000Rule
+    IncomeAbove200000Rule,
+    VehicleProducedBeforeFiveYearsRule
   ]
 
   ELIGIBILITY_RULES = [
