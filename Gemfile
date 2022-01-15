@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem "rack"
 gem "sinatra"
 gem "activesupport"
-gem "puma"
+gem "sinatra-contrib"
 
 group :test do
   gem "rspec"

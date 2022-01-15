@@ -1,27 +1,42 @@
 require "sinatra/base"
+require "sinatra/reloader"
 
 class RiskAPI < Sinatra::Base
-  REQUIRED_POST_FIELDS = [:age, :dependents, :house, :income, :marital_status, :risk_questions, :vehicle].freeze
+  register Sinatra::Reloader
+
+  REQUIRED_FIELDS = [:age, :dependents, :house, :income, :marital_status, :risk_questions, :vehicle]
 
   post '/risk' do
-    # validate if the post body has all the input_fields fields
-    missing_fields = validate_post_params(params)
+    body = JSON.parse(request.body.read).symbolize_keys
 
+    missing_fields = find_missing_fields(body)
     if missing_fields.any?
-      halt 400, "Missing fields: #{missing_fields.join(', ')}"
+      halt 400, { error: "Missing fields: #{missing_fields.join(', ')}" }.to_json
     end
 
-
     status 200
+
+    response = {
+      auto: map_risk_score(AutoRules.new(body).calculate_risk)
+    }
+
+    body response.to_json
   end
 
   private
 
-  def validate_post_params(params)
-    missing_fields = []
-    REQUIRED_POST_FIELDS.each do |field|
-      missing_fields.push(field) unless params.has_key? field
+  def find_missing_fields(body)
+    REQUIRED_FIELDS.select { |field| body[field].nil? }
+  end
+
+  def map_risk_score(score)
+    case
+    when score <= 0
+      'economic'
+    when score == 1 || score == 2
+      'regular'
+    when score >= 3
+      'responsible'
     end
-    missing_fields
   end
 end
