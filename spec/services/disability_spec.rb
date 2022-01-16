@@ -1,0 +1,140 @@
+require_relative '../spec_helper'
+
+RSpec.describe DisabilityRules do
+  let!(:subject) { DisabilityRules }
+
+  let(:default_params) {
+    {
+      age: 50,
+      dependents: 0,
+      house: { ownership_status: "owned"},
+      income: 0,
+      marital_status: "single",
+      risk_questions: [0, 1, 0],
+      vehicle: { year: 2000 }
+    }
+  }
+
+  describe 'is_eligible?' do
+    describe 'Age Rule' do
+      describe 'when user is over 60 years old' do
+        it 'returns false' do
+          eligible = subject.new(default_params.merge({ age: 61 })).is_eligible?
+          expect(eligible).to eq(false)
+        end
+      end
+
+      describe 'when user is exactly 60 years old' do
+        it 'returns false' do
+          eligible = subject.new(default_params.merge({ age: 60 })).is_eligible?
+          expect(eligible).to eq(false)
+        end
+      end
+
+      describe 'when user is below 60 years old' do
+        it 'returns true' do
+          eligible = subject.new(default_params.merge({ age: 59 })).is_eligible?
+          expect(eligible).to eq(true)
+        end
+      end
+    end
+
+    describe 'Income Rule' do
+      describe 'when user has no income' do
+        it 'returns true' do
+          eligible = subject.new(default_params.merge({ income: 0 })).is_eligible?
+          expect(eligible).to eq(true)
+        end
+      end
+
+      describe 'when user has income > 0' do
+        it 'returns true' do
+          eligible = subject.new(default_params.merge({ income: 1 })).is_eligible?
+          expect(eligible).to eq(true)
+        end
+      end
+    end
+  end
+
+  describe '.calculate_score' do
+    describe 'Age Rule' do
+      describe 'when user has 29 years old' do
+        it 'returns score of -2' do
+          risk_score = subject.new(default_params.merge({ age: 29 })).calculate_score
+          expect(risk_score).to eq(-2)
+        end
+      end
+      describe 'when user has 30 years old' do
+        it 'returns score of -1' do
+          risk_score = subject.new(default_params.merge({ age: 30 })).calculate_score
+          expect(risk_score).to eq(-1)
+        end
+      end
+      describe 'when user has 39 years old' do
+        it 'returns score of -1' do
+          risk_score = subject.new(default_params.merge({ age: 39 })).calculate_score
+          expect(risk_score).to eq(-1)
+        end
+      end
+      describe 'when user has 40 years old' do
+        it 'returns score of 0' do
+          risk_score = subject.new(default_params.merge({ age: 40 })).calculate_score
+          expect(risk_score).to eq(0)
+        end
+      end
+    end
+
+    describe 'Income Rule' do
+      describe 'when income is 200_000' do
+        it 'returns score of 0' do
+          risk_score = subject.new(default_params.merge({ income: 200_000 })).calculate_score
+          expect(risk_score).to eq(0)
+        end
+      end
+
+      describe 'when income is less than 200_000' do
+        it 'returns score of 0' do
+          risk_score = subject.new(default_params.merge({ income: 199_999 })).calculate_score
+          expect(risk_score).to eq(0)
+        end
+      end
+
+      describe 'when income is more than 200_000' do
+        it 'returns score of -1' do
+          risk_score = subject.new(default_params.merge({ income: 200_001 })).calculate_score
+          expect(risk_score).to eq(-1)
+        end
+      end
+    end
+
+    describe 'Vehicle Produced Recently Rule' do
+      describe 'when vehicle is from this year' do
+        it 'returns score of 1' do
+          risk_score = subject.new(default_params.merge({ vehicle: { year: Time.new.year }})).calculate_score
+          expect(risk_score).to eq(1)
+        end
+      end
+
+      describe 'when vehicle is from 4 years ago' do
+        it 'returns score of 1' do
+          risk_score = subject.new(default_params.merge({ vehicle: { year: Time.new.year - 4 }})).calculate_score
+          expect(risk_score).to eq(1)
+        end
+      end
+
+      describe 'when vehicle is from 5 years ago' do
+        it 'returns score of 1' do
+          risk_score = subject.new(default_params.merge({ vehicle: { year: Time.new.year - 5 }})).calculate_score
+          expect(risk_score).to eq(1)
+        end
+      end
+
+      describe 'when vehicle is from 6 years ago' do
+        it 'returns score of 0' do
+          risk_score = subject.new(default_params.merge({ vehicle: { year: Time.new.year - 6 }})).calculate_score
+          expect(risk_score).to eq(0)
+        end
+      end
+    end
+  end
+end

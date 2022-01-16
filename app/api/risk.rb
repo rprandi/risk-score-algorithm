@@ -33,13 +33,13 @@ class RiskAPI < Sinatra::Base
     REQUIRED_FIELDS.select { |field| body[field].nil? }
   end
 
-  def calculate_score(body, rules)
-    rulesObject = rules.new(body)
-    return 'ineligible' unless rulesObject.is_eligible?
+  def calculate_score(body, rules_klass)
+    rules = rules_klass.new(body)
+    return 'ineligible' unless rules.is_eligible?
 
 
     base_score = body[:risk_questions].reduce(:+)
-    score = base_score + rulesObject.calculate_score
+    score = base_score + rules.calculate_score
 
     case
     when score <= 0
