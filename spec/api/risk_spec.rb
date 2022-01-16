@@ -7,7 +7,8 @@ RSpec.describe RiskAPI do
   describe 'POST /risk' do
     let(:body) { JSON.parse(last_response.body).symbolize_keys }
 
-    describe 'when the body is valid (Happy Path testing)' do
+    #Happy Path
+    describe 'when the body is valid' do
       let(:request) {{
         age: 35,
         dependents: 2,
@@ -28,6 +29,36 @@ RSpec.describe RiskAPI do
       it 'Returns a 200 when the body is valid' do
         post '/risk', request.to_json
         expect(last_response.status).to eq(200)
+        expect(body).to eq(response)
+      end
+    end
+
+    #Bad Request
+    describe 'when the body is empty' do
+      let(:request) {{
+      }}
+
+      let(:response) {{
+        error: "Missing fields: age, dependents, house, income, marital_status, risk_questions, vehicle"
+      }}
+
+      it 'Returns a 200 when the body is valid' do
+        post '/risk', request.to_json
+        expect(last_response.status).to eq(400)
+        expect(body).to eq(response)
+      end
+    end
+    describe 'when the body is missing' do
+      let(:request) {{
+      }}
+
+      let(:response) {{
+        error: "Invalid Body"
+      }}
+
+      it 'Returns a 200 when the body is valid' do
+        post '/risk'
+        expect(last_response.status).to eq(400)
         expect(body).to eq(response)
       end
     end

@@ -7,13 +7,17 @@ class RiskAPI < Sinatra::Base
   REQUIRED_FIELDS = [:age, :dependents, :house, :income, :marital_status, :risk_questions, :vehicle]
 
   post '/risk' do
-    body = JSON.parse(request.body.read).symbolize_keys
+    begin
+      body = JSON.parse(request.body.read).symbolize_keys
+    rescue JSON::ParserError => e
+      halt 400, { error: "Invalid Body" }.to_json
+    end
 
     missing_fields = find_missing_fields(body)
+
     if missing_fields.any?
       halt 400, { error: "Missing fields: #{missing_fields.join(', ')}" }.to_json
     end
-
 
     status 200
 
