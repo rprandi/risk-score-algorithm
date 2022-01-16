@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7f27d7d9-4255-4904-bb36-029661140d05" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/services/auto.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/auto.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/services/disability.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/disability.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/services/home.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/home.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/services/life.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/life.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/services/risk.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/services/risk.rb" afterDir="false" />
-    </list>
+    <list default="true" id="7f27d7d9-4255-4904-bb36-029661140d05" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -320,7 +312,7 @@
       <updated>1642270040282</updated>
       <workItem from="1642270041933" duration="129000" />
       <workItem from="1642270188305" duration="21317000" />
-      <workItem from="1642342557004" duration="920000" />
+      <workItem from="1642342557004" duration="951000" />
     </task>
     <servers />
   </component>

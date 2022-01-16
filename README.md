@@ -54,7 +54,7 @@ If no body (or missing fields) are sent, the application should return a 400 Bad
 
 # Strategy
 
-- I used the Sinatra library, Reck server and Ruby language, because i am more familiar with them.
+- I used the Sinatra library, Rack server and Ruby language, because i am more familiar with them.
 
 - Architecture-wise, I decided not to add any complexity since this is an exercise focused on dealing with Business Rules. So a simple controller with a service layer was enough.
 
