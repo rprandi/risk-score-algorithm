@@ -18,10 +18,10 @@ class RiskAPI < Sinatra::Base
     status 200
 
     response = {
-      auto: calculate_score(body, AutoRules)
-      # disability: calculate_score(body, AutoRules)
-      # home: calculate_score(body, AutoRules)
-      # life: calculate_score(body, AutoRules)
+      auto: calculate_score(body, AutoRules),
+      disability: calculate_score(body, DisabilityRules),
+      home: calculate_score(body, HomeRules),
+      life: calculate_score(body, LifeRules)
     }
 
     body response.to_json
