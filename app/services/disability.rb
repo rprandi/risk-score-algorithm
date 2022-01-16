@@ -1,10 +1,10 @@
 class DisabilityRules < RiskRules
   SCORE_CALCULATION_RULES = [
     BelowThirtyYearsOldRule,
-    HouseMortagedDisabilityRule,
+    HouseMortgagedDisabilityRule,
     BelowFortyYearsOldRule,
     IncomeAbove200000Rule,
-    HasDependantsRule,
+    HasDependentsRule,
     IsMarriedRule,
   ]
 

@@ -8,7 +8,7 @@ RSpec.describe DisabilityRules do
       age: 50,
       dependents: 0,
       house: { ownership_status: "owned"},
-      income: 0,
+      income: 100,
       marital_status: "single",
       risk_questions: [0, 1, 0],
       vehicle: { year: 2000 }
@@ -25,9 +25,9 @@ RSpec.describe DisabilityRules do
       end
 
       describe 'when user is exactly 60 years old' do
-        it 'returns false' do
+        it 'returns true' do
           eligible = subject.new(default_params.merge({ age: 60 })).is_eligible?
-          expect(eligible).to eq(false)
+          expect(eligible).to eq(true)
         end
       end
 
@@ -41,9 +41,9 @@ RSpec.describe DisabilityRules do
 
     describe 'Income Rule' do
       describe 'when user has no income' do
-        it 'returns true' do
+        it 'returns false' do
           eligible = subject.new(default_params.merge({ income: 0 })).is_eligible?
-          expect(eligible).to eq(true)
+          expect(eligible).to eq(false)
         end
       end
 
@@ -107,34 +107,52 @@ RSpec.describe DisabilityRules do
       end
     end
 
-    describe 'Vehicle Produced Recently Rule' do
-      describe 'when vehicle is from this year' do
-        it 'returns score of 1' do
-          risk_score = subject.new(default_params.merge({ vehicle: { year: Time.new.year }})).calculate_score
-          expect(risk_score).to eq(1)
-        end
-      end
-
-      describe 'when vehicle is from 4 years ago' do
-        it 'returns score of 1' do
-          risk_score = subject.new(default_params.merge({ vehicle: { year: Time.new.year - 4 }})).calculate_score
-          expect(risk_score).to eq(1)
-        end
-      end
-
-      describe 'when vehicle is from 5 years ago' do
-        it 'returns score of 1' do
-          risk_score = subject.new(default_params.merge({ vehicle: { year: Time.new.year - 5 }})).calculate_score
-          expect(risk_score).to eq(1)
-        end
-      end
-
-      describe 'when vehicle is from 6 years ago' do
+    describe 'Dependent Rule' do
+      describe 'when user has no dependents' do
         it 'returns score of 0' do
-          risk_score = subject.new(default_params.merge({ vehicle: { year: Time.new.year - 6 }})).calculate_score
+          risk_score = subject.new(default_params.merge({ dependents: 0 })).calculate_score
           expect(risk_score).to eq(0)
         end
       end
+      describe 'when user has dependents' do
+        it 'returns score of 1' do
+          risk_score = subject.new(default_params.merge({ dependents: 1 })).calculate_score
+          expect(risk_score).to eq(1)
+        end
+      end
+
+    end
+
+    describe 'Marriage Rule' do
+      describe 'when user is married' do
+        it 'returns score of -1' do
+          risk_score = subject.new(default_params.merge({ marital_status: "married" })).calculate_score
+          expect(risk_score).to eq(-1)
+        end
+      end
+      describe 'when user is single' do
+        it 'returns score of 0' do
+          risk_score = subject.new(default_params.merge({ marital_status: "single" })).calculate_score
+          expect(risk_score).to eq(0)
+        end
+      end
+
+    end
+
+    describe 'House Mortgaged Rule' do
+      describe 'when user has a mortgaged house' do
+        it 'returns score of 1' do
+          risk_score = subject.new(default_params.merge({ house: { ownership_status: "mortgaged" } })).calculate_score
+          expect(risk_score).to eq(-1)
+        end
+      end
+      describe 'when user has an owned house' do
+        it 'returns score of 0' do
+          risk_score = subject.new(default_params.merge({ house: { ownership_status: "owned" } })).calculate_score
+          expect(risk_score).to eq(0)
+        end
+      end
+
     end
   end
 end
