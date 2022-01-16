@@ -1,5 +1,5 @@
 ENV['RACK_ENV'] = 'test'
-require_relative '../config/environment'
+require_relative '../config/ig/environment'
 
 RSpec.configure do |config|
   config.include Rack::Test::Methods
