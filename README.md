@@ -64,7 +64,7 @@ If no body (or missing fields) are sent, the application should return a 400 Bad
 
 - The business rules are complex and shouled be extensible, so I decided to encapsulate each rule into a class
 
-![](imgs/rule class.png)
+![](imgs/ruleclass.png)
 
 - Each Business Rule Class was then injected into a Insurance Category class:
 
@@ -74,7 +74,7 @@ If no body (or missing fields) are sent, the application should return a 400 Bad
 
 - There is also an eligibility check that is run before running the score calculation. The rules for elibility are also encapsulated into classes.
 
-![](imgs/applying rules.png)
+![](imgs/applyingrules.png)
 
 - This worked well because the rules applies the same score (eg. +1) independently of the insurance category. There was an exception (Marriage status added +1 to life and -1 to disability score), so it was treated by splitting the rule into two different classes
 

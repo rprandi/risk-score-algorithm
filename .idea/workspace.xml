@@ -7,9 +7,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7f27d7d9-4255-4904-bb36-029661140d05" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/app/api/risk.rb" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/risk.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spec/api/risk_spec.rb" beforeDir="false" afterPath="$PROJECT_DIR$/spec/api/risk_spec.rb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spec/spec_helper.rb" beforeDir="false" afterPath="$PROJECT_DIR$/spec/spec_helper.rb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/imgs/applying rules.png" beforeDir="false" afterPath="$PROJECT_DIR$/imgs/applyingrules.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/imgs/rule class.png" beforeDir="false" afterPath="$PROJECT_DIR$/imgs/ruleclass.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -320,7 +320,7 @@
       <option name="presentableId" value="Default" />
       <updated>1642270040282</updated>
       <workItem from="1642270041933" duration="129000" />
-      <workItem from="1642270188305" duration="20924000" />
+      <workItem from="1642270188305" duration="21160000" />
     </task>
     <servers />
   </component>
