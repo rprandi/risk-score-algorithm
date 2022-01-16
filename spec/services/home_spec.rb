@@ -1,57 +1,32 @@
 require_relative '../spec_helper'
 
-RSpec.describe DisabilityRules do
-  let!(:subject) { DisabilityRules }
+RSpec.describe HomeRules do
+  let!(:subject) { HomeRules }
 
   let(:default_params) {
     {
       age: 50,
-      dependents: 0,
+      dependents: 2,
       house: { ownership_status: "owned"},
       income: 100,
-      marital_status: "single",
+      marital_status: "married",
       risk_questions: [0, 1, 0],
       vehicle: { year: 2000 }
     }
   }
 
   describe 'is_eligible?' do
-    describe 'Age Rule' do
-      describe 'when user is over 60 years old' do
-        it 'returns false' do
-          eligible = subject.new(default_params.merge({ age: 61 })).is_eligible?
-          expect(eligible).to eq(false)
-        end
-      end
-
-      describe 'when user is exactly 60 years old' do
-        it 'returns true' do
-          eligible = subject.new(default_params.merge({ age: 60 })).is_eligible?
-          expect(eligible).to eq(true)
-        end
-      end
-
-      describe 'when user is below 60 years old' do
-        it 'returns true' do
-          eligible = subject.new(default_params.merge({ age: 59 })).is_eligible?
-          expect(eligible).to eq(true)
-        end
+    describe 'when user has no house' do
+      it 'returns false' do
+        eligible = subject.new(default_params.merge({ house: {}})).is_eligible?
+        expect(eligible).to eq(false)
       end
     end
 
-    describe 'Income Rule' do
-      describe 'when user has no income' do
-        it 'returns false' do
-          eligible = subject.new(default_params.merge({ income: 0 })).is_eligible?
-          expect(eligible).to eq(false)
-        end
-      end
-
-      describe 'when user has income > 0' do
-        it 'returns true' do
-          eligible = subject.new(default_params.merge({ income: 1 })).is_eligible?
-          expect(eligible).to eq(true)
-        end
+    describe 'when user has a house' do
+      it 'returns true' do
+        eligible = subject.new(default_params).is_eligible?
+        expect(eligible).to eq(true)
       end
     end
   end
@@ -103,37 +78,6 @@ RSpec.describe DisabilityRules do
         it 'returns score of -1' do
           risk_score = subject.new(default_params.merge({ income: 200_001 })).calculate_score
           expect(risk_score).to eq(-1)
-        end
-      end
-    end
-
-    describe 'Dependent Rule' do
-      describe 'when user has no dependents' do
-        it 'returns score of 0' do
-          risk_score = subject.new(default_params.merge({ dependents: 0 })).calculate_score
-          expect(risk_score).to eq(0)
-        end
-      end
-      describe 'when user has dependents' do
-        it 'returns score of 1' do
-          risk_score = subject.new(default_params.merge({ dependents: 1 })).calculate_score
-          expect(risk_score).to eq(1)
-        end
-      end
-
-    end
-
-    describe 'Marriage Rule' do
-      describe 'when user is married' do
-        it 'returns score of -1' do
-          risk_score = subject.new(default_params.merge({ marital_status: "married" })).calculate_score
-          expect(risk_score).to eq(-1)
-        end
-      end
-      describe 'when user is single' do
-        it 'returns score of 0' do
-          risk_score = subject.new(default_params.merge({ marital_status: "single" })).calculate_score
-          expect(risk_score).to eq(0)
         end
       end
     end

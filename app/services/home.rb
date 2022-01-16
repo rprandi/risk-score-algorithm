@@ -1,16 +1,13 @@
-class DisabilityRules < RiskRules
+class HomeRules < RiskRules
   SCORE_CALCULATION_RULES = [
     BelowThirtyYearsOldRule,
     HouseMortgagedRule,
     BelowFortyYearsOldRule,
     IncomeAbove200000Rule,
-    HasDependentsRule,
-    IsMarriedDisabilityRule,
   ]
 
   ELIGIBILITY_RULES = [
-    NoIncomeRule,
-    OverSixtyYearsOldRule
+    NoHomeRule
   ]
 
   def initialize(params)
